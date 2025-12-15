@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/customize_generation.css' %}">
+    <title>Personalizza Generazione</title>
+    <script>
+        // Mostra o nasconde la tabella in base alla selezione del tipo di nota
+        function toggleParametriTable() {
+            const isStrutturato = document.querySelector('input[name="tipo_nota"]:checked').value === 'strutturato';
+            const parametriTable = document.getElementById('parametriContainer');
+            parametriTable.style.display = isStrutturato ? 'block' : 'none';
+            const testo = document.getElementById('testoContainer');
+            testo.style.display = isStrutturato ? 'none' : 'block';
+        }
+
+        // Funzione per aggiungere una nuova riga
+        function aggiungiRiga() {
+            const table = document.getElementById('parametriTable');
+            const row = table.insertRow();
+            const tipoCell = row.insertCell(0);
+            const testoCell = row.insertCell(1);
+            const removeCell = row.insertCell(2);
+
+            tipoCell.style.border = "0px";
+            testoCell.style.border = "0px";
+            removeCell.style.border = "0px";
+
+            // AGGIORNATO: name="custom_key" e name="custom_value"
+            tipoCell.innerHTML = '<input class="input" type="text" name="custom_key" placeholder="Nuova Key" required>';
+            testoCell.innerHTML = '<textarea class="input" name="custom_value" rows="4" placeholder="Nuovo Value" required></textarea>';
+            removeCell.innerHTML = '<button type="button" class="remove-button" onclick="rimuoviRiga(this)">Rimuovi</button>';
+        }
+
+        // Funzione per rimuovere una riga
+        function rimuoviRiga(button) {
+            const row = button.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+        }
+
+        // Assicurati che la tabella sia correttamente mostrata o nascosta al caricamento della pagina
+        window.onload = toggleParametriTable;
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="{% static 'images/logo.png' %}" alt="SoulDiaryConnect" height="60px" style="margin-left: 30px;">
+        <h1>Personalizza Generazione</h1>
+        <div class="top-buttons">
+            <a href="{% url 'doctor_home' %}" class="personalize-button">Torna Indietro</a>
+            <a href="{% url 'logout' %}" class="logout-button">Logout <img src="{% static 'images/logout_white.png' %}" height="17px" style="margin-left:2px;"></a>
+        </div>
+    </div>
+    
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="flex-container">
+            <div class="flex-item">
+                <h2>Tipo di Nota</h2>
+                <label>
+                    <input type="radio" name="tipo_nota" value="strutturato" {% if doctor.is_structured %}checked{% endif %} onchange="toggleParametriTable()">
+                    Commento Strutturato
+                </label>
+                <label>
+                    <input type="radio" name="tipo_nota" value="non_strutturato" {% if not doctor.is_structured %}checked{% endif %} onchange="toggleParametriTable()">
+                    Commento Non Strutturato
+                </label>
+            </div>
+
+            <div class="flex-item">
+                <h2>Lunghezza della Nota</h2>
+                <label>
+                    <input type="radio" name="lunghezza_nota" value="lungo" {% if doctor.is_long %}checked{% endif %}>
+                    Commento Lungo
+                </label>
+                <label>
+                    <input type="radio" name="lunghezza_nota" value="breve" {% if not doctor.is_long %}checked{% endif %}>
+                    Commento Breve
+                </label>
+            </div>
+        </div>
+
+        <div id="testoContainer" class="hidden">
+            <h3 style="color : red;">Attenzione! Scegliendo "Non Strutturato" il commento generato sarà generico.</h3>
+        </div>
+
+        <div id="parametriContainer" class="hidden">
+            <h2>Parametri Personalizzati</h2>
+            <h3>Esempio di contesto: <i>"Today I failed my exam and feel like giving up."</i></h3>
+            
+            <table id="parametriTable" style="border: 0px;">
+                <tr style="border: 0px;">
+                    <th style="border: 0px;">Tipo Parametro (Key)</th>
+                    <th style="border: 0px;">Testo Parametro (Value)</th>
+                    <th style="border: 0px;"> </th>
+                </tr>
+                
+                {% for param in existing_parameters %}
+                    <tr>
+                        <td style="border: 0px;">
+                            <input class="input" type="text" name="custom_key" value="{{ param.custom_key }}" style="width: 90%;" required>
+                        </td>
+                        <td style="border: 0px;">
+                            <textarea class="input" name="custom_value" rows="4" style="width: 90%; font-family: Verdana, sans-serif;" required>{{ param.custom_value }}</textarea>
+                        </td>
+                        <td style="border: 0px;">
+                            <button type="button" class="remove-button" onclick="rimuoviRiga(this)">Rimuovi</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button type="button" class="add-button" onclick="aggiungiRiga()">Aggiungi Parametro</button>
+        </div>
+
+        <br>
+        <button type="submit" class="submit-button">Conferma Configurazione</button>
+    </form>
+</body>
+</html>

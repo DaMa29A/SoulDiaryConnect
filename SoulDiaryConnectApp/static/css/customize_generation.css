@@ -1,0 +1,174 @@
+body {
+    font-family: Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e3f2fd;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1565c0;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 50px;
+}
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 40px;
+    transition: 0.3s;
+}
+.logout-button:hover {
+    background-color: #c82333;
+}
+.personalize-button {
+    background-color: #FFFFFF;
+    color: #1565c0;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-right: 20px;
+    transition: 0.3s;
+}
+.personalize-button:hover {
+    background-color: #e3f2fd;
+}
+.header h1 {
+    font-size: 22px;
+    margin: 0;
+}
+
+.top-buttons {
+    display: flex;
+    gap: 10px;
+}
+.top-buttons .back, .top-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.top-buttons .back:hover, .top-buttons button:hover {
+    background-color: #0056b3;
+}
+form {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 120px;
+}
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.flex-item {
+    width: 48%;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+table, th, td {
+    border: 1px solid #ddd;
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    background-color: #1565c0;
+    color: white;
+}
+.remove-button {
+    color: white;
+    background-color: red;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.remove-button:hover {
+    background-color: #c82333;
+}
+.add-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.add-button:hover {
+    background-color: #218838;
+}
+.submit-button {
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.submit-button:hover {
+    background-color: #0f4a8d;
+}
+.hidden {
+    display: none;
+}
+label {
+    display: block;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.input {
+    padding: 5px 10px;
+    width: 100%;
+    outline: none;
+    background: #FFFFFF;
+    color: #000000;
+    border: 0px solid #C4D1EB;
+    border-radius: 5px;
+    box-shadow: 3px 3px 2px 0px #E2E2E2;
+    transition: .3s ease;
+    font-family: Verdana, sans-serif;
+    width: 90%;
+
+}
+
+.input:focus {
+    background: #FCFCFC;
+    border: 0px solid #5A7EC7;
+    border-radius: 10px;
+}
+
+.input::placeholder {
+    color: #DDDDDD;
+}

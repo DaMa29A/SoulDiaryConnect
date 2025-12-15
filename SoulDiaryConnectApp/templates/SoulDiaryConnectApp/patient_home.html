@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/patient_home.css' %}">
+    <title>Home Paziente</title>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="SoulDiaryConnect" height="60px" style="margin-left: 30px;">
+        </a>
+        <h1>Benvenuto, {{ patient.first_name }} {{ patient.last_name }}</h1>
+        <a href="{% url 'logout' %}" class="logout-button">Logout<img src="{% static 'images/logout_white.png' %}" height="17px" style="margin-left:2px;"></a>
+    </div>
+
+    <div class="container">
+        <div class="col-left">
+            <h2>Scheda del tuo medico <img src="{% static 'images/stethoscope.png' %}" height="20px"></h2>
+            
+            <p><strong>Nome:</strong> {{ doctor.first_name }} {{ doctor.last_name }}</p>
+            <p><strong>Indirizzo:</strong> {{ doctor.office_address }}, {{ doctor.street_number }} - {{ doctor.city }}</p>
+            <p><strong>Email:</strong> {{ doctor.email }}</p>
+            <p><strong>Numero Studio:</strong> {{ doctor.office_phone }}</p>
+            <p><strong>Numero Cellulare:</strong> {{ doctor.mobile_phone }}</p>
+            
+            <div class='separator'></div>
+            
+            <h2>Aggiungi una nuova nota</h2>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <textarea name="desc" placeholder="Scrivi la tua nota..." rows="10" required></textarea>
+                
+                <button type="submit">Aggiungi Nota</button>
+            </form>
+
+        </div>
+        <div class="col-right">
+            <div class="notes">
+                <h2>Le tue note diario <img src="{% static 'images/writing.png' %}" height="22px" style="margin-left:2px;"></h2>
+                <ul>
+                    {% for entry in diary_entries %}
+                        <li>
+                            <p><strong>Data:</strong> {{ entry.entry_date|date:"d/m/Y H:i" }}</p>
+                            
+                            <p><strong>Nota:</strong> {{ entry.patient_text }}</p>
+                            
+                            <div class='separator'></div>
+                            
+                            {% if entry.support_text %}
+                                <p><strong>Supporto (AI):</strong> {{ entry.support_text }}</p>
+                            {% endif %}
+                            
+                            {% if entry.doctor_note %}
+                                <div class='separator'></div>
+                                <p><strong>Cosa ne pensa il medico:</strong> {{ entry.doctor_note }}</p>
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <p>Non ci sono note disponibili.</p>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

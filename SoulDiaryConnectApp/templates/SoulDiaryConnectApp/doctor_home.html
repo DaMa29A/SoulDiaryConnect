@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/doctor_home.css' %}">
+    <title>Home Medico</title>
+    <script>
+        function selectPatient(selectedButton) {
+            const buttons = document.querySelectorAll('.col-left button');
+            buttons.forEach(button => button.classList.remove('selected'));
+            selectedButton.classList.add('selected');
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'images/logo.png' %}" alt="SoulDiaryConnect" height="60px" style="margin-left: 30px;">
+        </a>
+        <h1>Benvenuto, Dr. {{ doctor.first_name }} {{ doctor.last_name }}</h1>
+        <div>
+            <a href="{% url 'customize_generation' %}" class="personalize-button">Personalizza Generazione<img src="{% static 'images/settings.png' %}" height="17px" style="margin-left:2px;"></a>
+            <a href="{% url 'logout' %}" class="logout-button">Logout<img src="{% static 'images/logout_white.png' %}" height="17px" style="margin-left:2px;"></a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="col-left">
+            <h2>Lista dei Pazienti</h2>
+            <ul>
+                {% for patient in patients %}
+                    <li>
+                        <button onclick="selectPatient(this); location.href='?paziente_id={{ patient.fiscal_code }}'"
+                            class="{% if selected_patient.fiscal_code == patient.fiscal_code %}selected{% endif %}">
+                            {{ patient.first_name }} {{ patient.last_name }}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="col-right">
+            {% if selected_patient %}
+                <div class="patient-data">
+                    <h2>Dati del Paziente</h2>
+                    <p><strong>Nome Cognome:</strong> {{ selected_patient.first_name }} {{ selected_patient.last_name }}</p>
+                    <p><strong>Codice Fiscale:</strong> {{ selected_patient.fiscal_code }} | <strong>Data di Nascita:</strong> {{ selected_patient.birth_date }}</p>
+                </div>
+
+                <div class="notes">
+                    <h2>Note Diario</h2>
+                    <ul>
+                        {% for entry in diary_entries %}
+                            <li>
+                                <p><strong>Data:</strong> {{ entry.entry_date|date:"d/m/Y H:i" }}</p>
+                                <p><strong>Nota:</strong> {{ entry.patient_text }}</p>
+                                
+                                <div class='separator'></div>
+                                
+                                <p><strong>Supporto (AI):</strong> {{ entry.support_text }}</p>
+                                
+                                <div class='separator'></div>
+                                
+                                <p><strong>Analisi Clinica (AI):</strong> {{ entry.clinical_text }}</p>
+                                
+                                <form method="POST" action="{% url 'edit_doctor_note' entry.id %}">
+                                    {% csrf_token %}
+                                    <label><strong>Cosa ne pensa il medico:</strong></label><br>
+                                    <textarea name="doctor_note" rows="4">{{ entry.doctor_note }}</textarea><br>
+                                    <button type="submit">Salva</button>
+                                </form>
+                            </li>
+                        {% empty %}
+                            <p>Nessuna nota presente per questo paziente.</p>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p style="padding: 20px;">Seleziona un paziente dalla lista per vedere i dettagli e le sue note.</p>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

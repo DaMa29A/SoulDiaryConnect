@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Medico, Paziente, NotaDiario, Messaggio
+from .models import Doctor, Patient, DiaryEntry, Parameter
 
-admin.site.register(Medico)
-admin.site.register(Paziente)
-admin.site.register(NotaDiario)
-admin.site.register(Messaggio)
+admin.site.register(Doctor)
+admin.site.register(Patient)
+admin.site.register(DiaryEntry)
+admin.site.register(Parameter)

@@ -1,0 +1,113 @@
+body {
+    font-family: 'Verdana', sans-serif;
+    background-color: #e3f2fd;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1565c0;
+    color: white;
+    padding: 10px 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 50px;
+}
+.header h1 {
+    font-size: 22px;
+    margin: 0;
+}
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    margin-right: 40px;
+    text-decoration: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 20px;
+    border-radius: 5px;
+}
+.logout-button:hover {
+    background-color: #c82333;
+}
+h2 {
+    color: #1565c0;
+    margin-top: 20px;
+}
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    margin-top: 50px;
+}
+.col-left {
+    width: 30%;
+    background-color: #FFF;
+    padding: 15px;
+    overflow-y: auto;
+}
+.col-right {
+    width: 70%;
+    padding: 20px;
+    background-color: #FAFAFA;
+    overflow-y: auto;
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.notes ul {
+    list-style-type: none;
+    padding: 0;
+}
+.notes li {
+    background: #bbdefb;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    border-left: 4px solid #1565c0;
+    padding-left: 10px;
+}
+.notes li p {
+    margin: 5px 0;
+}
+.separator {
+    border-top: 2px solid #1565c0;
+    margin: 8px 0;
+}
+textarea {
+    width: 95%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #1565c0;
+    font-size: 14px;
+    background: #FFF;
+    transition: 0.3s ease-in-out;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    resize: none;
+}
+textarea:focus {
+    outline: none;
+    border-color: #0d47a1;
+    box-shadow: inset 2px 2px 8px rgba(13, 71, 161, 0.2);
+    background: #E3F3F5;
+}
+button {
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #0d47a1;
+}

@@ -18,6 +18,7 @@ desktop.ini
 *.gguf
 
 # Ignore virtual environments
+.venv/
 venv/
 env/
 soul/
@@ -42,3 +43,7 @@ logs/
 
 # Ignore JetBrains IDE (PyCharm) settings
 .idea/
+
+#
+.env
+.info/
