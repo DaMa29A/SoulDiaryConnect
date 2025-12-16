@@ -10,7 +10,7 @@ import logging
 
 # Logger e Configurazione Modello
 logger = logging.getLogger(__name__)
-model_path = "./models/mistral/mistral-7b-v0.1.Q8_0.gguf"
+model_path = "./models/mistral/mistral-7b-openorca.Q8_0.gguf"
 # Inizializza il modello una volta sola all'avvio
 try:
     llama_model = Llama(model_path=model_path, n_ctx=2048)
