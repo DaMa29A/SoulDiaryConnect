@@ -61,7 +61,19 @@ source .venv/bin/activate  # on Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### **4. Configure the database**
+
+### **4. Load the NLP model**
+Create the folder **models/mistral/** in the project root (if it doesn't exist).
+
+Move the downloaded model file into **models/mistral/**.
+
+Update the model path in **views.py** if necessary and edit the *context size* (**n_ctx** value):
+```python
+model_path = "./models/mistral/your_mistral-7b-openorca.Q8_0.gguf"
+llama_model = Llama(model_path=model_path, n_ctx=2048)
+```
+
+### **5. Configure the database**
 Create the physical database via terminal:
 ```sh
 # Access PostgreSQL (it will ask for the password)
@@ -73,7 +85,6 @@ CREATE DATABASE souldiaryconnect_db;
 # Exit the shell
 \q
 ```
-
 
 Create a file named **.env** in the main project folder and add your PostgreSQL credentials:
 ```sh
@@ -88,18 +99,6 @@ Prepare and apply the database tables:
 ```sh
 python manage.py makemigrations SoulDiaryConnectApp
 python manage.py migrate
-```
-
-
-### **5. Load the NLP model**
-Create the folder **models/mistral/** in the project root (if it doesn't exist).
-
-Move the downloaded model file into **models/mistral/**.
-
-Update the model path in **views.py** if necessary and edit the *context size* (**n_ctx** value):
-```python
-model_path = "./models/mistral/your_mistral-7b-openorca.Q8_0.gguf"
-llama_model = Llama(model_path=model_path, n_ctx=2048)
 ```
 
 ### **6. Start the server**
