@@ -29,8 +29,21 @@ The AI used is [Mistral 7B OpenOrca](https://huggingface.co/TheBloke/Mistral-7B-
 
 ---
 
-## Installation Guide
+## Prerequisites
+Before installing the project, make sure you have the necessary tools installed to handle AI model execution and database management.
 
+### 1. PostgreSQL
+Download and install the latest version of PostgreSQL:  
+[https://www.postgresql.org/download/](https://www.postgresql.org/download/)
+
+### 2. Local LLM Model
+SoulDiaryConnect requires a local language model to operate.  
+Download the following model file from Hugging Face:  
+[mistral-7b-openorca.Q8_0.gguf](https://huggingface.co/TheBloke/Mistral-7B-OpenOrca-GGUF/blob/main/mistral-7b-openorca.Q8_0.gguf)
+
+---
+
+## Installation Guide
 ### **1️. Clone the repository**
 ```sh
 git clone https://github.com/FLaTNNBio/SoulDiaryConnect.git
@@ -39,8 +52,8 @@ cd SoulDiaryConnect
 
 ### **2. Set up a virtual environment**
 ```sh
-python3 -m venv venv
-source venv/bin/activate  # on Windows: venv\Scripts\activate
+python3 -m venv .venv
+source .venv/bin/activate  # on Windows: .venv\Scripts\activate
 ```
 
 ### **3. Install dependencies**
@@ -48,57 +61,54 @@ source venv/bin/activate  # on Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## **4. Configure the database**
-
-Install PostgreSQL following the [official guideline](https://www.postgresql.org/download/).<br>
-To exectute the queries:
+### **4. Configure the database**
+Create the physical database via terminal:
 ```sh
-python manage.py dbshell
+# Access PostgreSQL (it will ask for the password)
+psql -U postgres -h localhost
+
+# Inside the SQL shell, execute:
+CREATE DATABASE souldiaryconnect_db;
+
+# Exit the shell
+\q
 ```
 
-Then:
-```sql
-\i souldiaryconnect.sql
-```
 
-Now edit **setting.py** to configure PostgreSQL:
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'souldiaryconnect',
-        'USER': 'your_user',
-        'PASSWORD': 'your_password',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
-}
-```
-
-Make database migrations:
+Create a file named **.env** in the main project folder and add your PostgreSQL credentials:
 ```sh
-python manage.py makemigrations
+DB_NAME=souldiaryconnect_db
+DB_USER=postgres
+DB_PASSWORD=example_password
+DB_HOST=localhost
+DB_PORT=5432
 ```
 
-Run database migrations:
+Prepare and apply the database tables:
 ```sh
+python manage.py makemigrations SoulDiaryConnectApp
 python manage.py migrate
 ```
 
-## **5. Load the NLP model (Mistral-7B)**
 
-Download the [Mistral-7B (quantized GGUF)](https://huggingface.co/TheBloke/Mistral-7B-v0.1-GGUF) model and place it in the 'models/mistral/' directory.
+### **5. Load the NLP model**
+Create the folder **models/mistral/** in the project root (if it doesn't exist).
 
-Update the model path in **views.py** and edit the *context size* (**n_ctx** value):
+Move the downloaded model file into **models/mistral/**.
+
+Update the model path in **views.py** if necessary and edit the *context size* (**n_ctx** value):
 ```python
 model_path = "./models/mistral/your_mistral-7b-openorca.Q8_0.gguf"
 llama_model = Llama(model_path=model_path, n_ctx=2048)
 ```
 
-## **6. Start the server**
+### **6. Start the server**
+To start the application, ensure the **.venv** is active and run:
 ```sh
 python manage.py runserver
 ```
+The app will be available at: http://127.0.0.1:8000/
+
 ## **Roles & Functionality**
 ### Doctor
 - **Manage patients** – Access and review patient journal entries.
