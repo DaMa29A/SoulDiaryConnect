@@ -46,7 +46,7 @@ Download the following model file from Hugging Face:
 ## Installation Guide
 ### **1️. Clone the repository**
 ```sh
-git clone https://github.com/FLaTNNBio/SoulDiaryConnect.git
+git clone https://github.com/DaMa29A/SoulDiaryConnect.git
 cd SoulDiaryConnect
 ```
 
